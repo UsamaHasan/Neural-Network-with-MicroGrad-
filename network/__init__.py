@@ -1,8 +1,11 @@
 from abc import ABCMeta
+from typing import Any
 class Module(metaclass=ABCMeta):
-    def forward():
+    def __call__(self, *args: Any, **kwds: Any) -> Any:
+        return self.forward(args[0])
+    def forward(self):
         ...
-    def backward():
+    def backward(self):
         ...
     
 from .activations import *

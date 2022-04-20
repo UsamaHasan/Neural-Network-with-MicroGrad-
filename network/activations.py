@@ -2,6 +2,7 @@
 Implements all the activations functions here.
 """
 
+
 from . import Module
 import numpy as np
 
@@ -70,3 +71,12 @@ class Relu(Module):
         ... 
     def backward() ->np.array:
         ...
+
+class Softmax(Module):
+    def __init__(self) -> None:
+        super().__init__()
+    def forward(self,x):
+        y_hat = np.exp(x)/ np.sum(np.exp(x))
+        return y_hat
+    def backward(self):
+        return super().backward()

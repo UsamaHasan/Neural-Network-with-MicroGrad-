@@ -37,15 +37,38 @@ class MSELoss(Module):
 class BCELoss(Module):
     def __init__(self) -> None:
         super().__init__()
+    
+    def forward(self):
+        return super().forward()
 
+    def backward(self):
+        return super().backward()
 class CrossEntropyLoss(Module):
     """
     """
     def __init__(self) -> None:
         super().__init__()
-    def forward():
+    def forward(self,x,y):
         """
+        Calculates Logits and then log-likelihood estimation
+        .. math::
+            y_hat = exp(x)/sum_{exp(x_i)}
+            loss = -sum_{y_i*log(yhat_i)}
+        Parameters
+        ----------
+        x: np.array
+            Model output
+        y: np.array
+            Actual Label.
+        Return
+        ------
+        return: float
+            Loss based on cross entropy.
         """
-        pass
+        N = y.shape[0]
+        y_hat = np.exp(x)/ np.sum(np.exp(x))
+        loss = -np.sum(np.dot(y,np.log(y_hat))) / N
+        return loss
+
     def backward(self):
         return super().backward()

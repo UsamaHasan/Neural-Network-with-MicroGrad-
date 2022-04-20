@@ -36,11 +36,24 @@ class LinearLayer(Module):
         return: np.array
             
         """
+        if self.trainable == True:
+            self.ctx = x
         return np.dot(self.w.T,x) + self.b
     
-    def backward(self):
-        return 
-
+    def backward(self,grad):
+        """
+        Implements backward pass of Linear Layer, through backward propagation 
+        by multiplying gradient of this layer(l) with the gradient of the l+1 
+        layer.
+        .. math::
+            a^l * grad^(l+1)
+        Parameters
+        ----------
+        grad: np.array
+        Returns
+        """
+        self.grad =  grad*self.ctx
+        return self.grad
 class ConvLayer(Module):
     """
     """

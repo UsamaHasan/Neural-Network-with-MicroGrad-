@@ -5,15 +5,24 @@ import numpy as np
 """ 
 class LinearLayer(Module):
     """
+    Implements Multi-Layer preceptron Layer. 
+    .. math::
+        w * x + b
     """
-    def __init__(self,input,output) -> None:
+    def __init__(self,input:np.array,output:np.array) -> None:
         """
+        Parameters
+        ----------
+        input: int
+            Input size to MLP.
+        output: int
+            Output dimension of MLP.
         """
         super().__init__()
-        self.w = np.random.rand(output,input)
-        self.b = np.random.rand(output,1)
+        self.w = np.random.randn(input,output)
+        self.b = np.random.randn(output,1)
 
-    def forward(self,x)-> np.array:
+    def forward(self,x:np.array)-> np.array:
         """
         Implements the forward pass of Linear Layer.
         .. math::
@@ -24,13 +33,13 @@ class LinearLayer(Module):
             array containing input.
         Returns
         -------
-        return: array
+        return: np.array
             
         """
-        return np.dot(self.w,x) + self.b
+        return np.dot(self.w.T,x) + self.b
     
     def backward(self):
-        pass
+        return 
 
 class ConvLayer(Module):
     """

@@ -43,6 +43,7 @@ class BCELoss(Module):
 
     def backward(self):
         return super().backward()
+
 class CrossEntropyLoss(Module):
     """
     """
@@ -70,5 +71,14 @@ class CrossEntropyLoss(Module):
         loss = -np.sum(np.dot(y,np.log(y_hat))) / N
         return loss
 
-    def backward(self):
-        return super().backward()
+    def backward(self,input,output):
+        """
+        Backpropagates
+        .. math::
+            derivative of e^x = e^x
+            derivative  of log(s) = 1/s*derivative(s) 
+            derivative of softmax = softmax*(1-softmax)
+            derivative of cross_entropy = y_hat - y
+        """
+        
+        return output - input

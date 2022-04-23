@@ -75,8 +75,19 @@ class Relu(Module):
 class Softmax(Module):
     def __init__(self) -> None:
         super().__init__()
-    def forward(self,x):
+    def forward(self,x:np.array)->np.array:
+        """
+        Parameters
+        ----------
+        x: np.array
+            Input array
+        Returns
+        ------- 
+        return: np.array
+            probability
+        """
         y_hat = np.exp(x)/ np.sum(np.exp(x))
         return y_hat
     def backward(self):
+
         return super().backward()

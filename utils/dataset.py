@@ -1,12 +1,12 @@
 import numpy as np
-
+from typing import Tuple
 class Dataset:
     """
     """
     def __init__(self,path:str=None) -> None:
         if path is not None:
             self.path = path
-    def load(self) -> tuple(np.array):
+    def load(self) -> Tuple[np.array,np.array]:
         """
         """
         if self.path is not None:

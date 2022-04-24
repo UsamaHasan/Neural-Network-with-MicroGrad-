@@ -68,7 +68,7 @@ class CrossEntropyLoss(Module):
         """
         N = y.shape[0]
         y_hat = np.exp(x)/ np.sum(np.exp(x))
-        loss = -np.sum(np.dot(y,np.log(y_hat))) / N
+        loss = -np.sum(np.dot(y,np.log(y_hat).T)) / N
         return loss
 
     def backward(self,input,output):
@@ -79,6 +79,17 @@ class CrossEntropyLoss(Module):
             derivative  of log(s) = 1/s*derivative(s) 
             derivative of softmax = softmax*(1-softmax)
             derivative of cross_entropy = y_hat - y
+        Parameters
+        ----------
+        input: np.array
+            Input from the previous layer or last layer
+        output: np.array
+            Actual Label of dataset, ground truhts.
+        Returns
+        -------
+        return :np.array
+            gradients of cross entropy loss function
         """
-        
-        return output - input
+        input = np.exp(input)/ np.sum(np.exp(input))
+        self.grads = output - input
+        return self.grads

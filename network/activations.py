@@ -13,6 +13,7 @@ class Sigmoid(Module):
         """
         """
         super().__init__()
+    
     def forward(self,x) -> np.array:
         """
         Applies activation function sigmoid on vector input.
@@ -27,11 +28,12 @@ class Sigmoid(Module):
         return: array
             Output array
         """
+        super().forward(x)
         if isinstance(x,np.ndarray):
             return 1 / (1 +  np.exp(-x))
         else:
             raise Exception(f"Invalid Input Format:{type(x)}, required np.array") 
-    def backward(self,x) -> np.array:
+    def backward(self,grad_in) -> np.array:
         """
         Implements the derivative of sigmoid function.
         .. math::
@@ -39,9 +41,12 @@ class Sigmoid(Module):
         Parameters
         ----------
         x : array
-        """
-        return np.exp(-x) / (1 +  np.exp(-x)) **2
-
+        """     
+        super().backward()
+        return  (np.exp(-self.ctx) / (1 +  np.exp(-self.ctx)) **2) * grad_in
+         
+    def __str__(self) -> str:
+        return f'Sigmoid Layer'
 class Tanh(Module):
     """
     """
@@ -49,10 +54,19 @@ class Tanh(Module):
         """
         """
         ...
-    def forward(self) -> np.array:
+    def forward(self,x) -> np.array:
         """
+        Parameters
+        ----------
+        x: np.array
+            Input
+        Return
+        ------
+        return: np.array
+            Squashed output
         """
-        ...
+        return np.tanh(x)
+        
     def backward(self) -> np.array:
         """
         """

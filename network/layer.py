@@ -20,7 +20,7 @@ class LinearLayer(Module):
         """
         super().__init__()
         self.w = np.random.randn(input,output)
-        self.b = np.random.randn(output,1)
+        self.b = np.random.randn(1,output)
 
     def forward(self,x:np.array)-> np.array:
         """
@@ -36,11 +36,10 @@ class LinearLayer(Module):
         return: np.array
             
         """
-        if self.trainable == True:
-            self.ctx = x
-        return np.dot(self.w.T,x) + self.b
+        super().forward(x)
+        return np.dot(x,self.w) 
     
-    def backward(self,grad):
+    def backward(self,grad_in:np.array):
         """
         Implements backward pass of Linear Layer, through backward propagation 
         by multiplying gradient of this layer(l) with the gradient of the l+1 
@@ -52,8 +51,14 @@ class LinearLayer(Module):
         grad: np.array
         Returns
         """
-        self.grad =  grad*self.ctx
-        return self.grad
+        super().backward()
+        grad_output = np.dot(grad_in, self.w.T)
+        self.grad = np.dot(self.ctx.T,grad_in)
+        return grad_output
+
+    def __str__(self) -> str:
+        return f'Linear Layer: Weight shape: {self.w.shape} Bias shape: {self.b.shape}'
+
 class ConvLayer(Module):
     """
     """

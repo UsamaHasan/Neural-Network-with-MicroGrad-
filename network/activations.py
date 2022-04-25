@@ -13,7 +13,7 @@ class Sigmoid(Module):
         """
         """
         super().__init__()
-    
+        self.trainable = False
     def forward(self,x) -> np.array:
         """
         Applies activation function sigmoid on vector input.
@@ -43,7 +43,8 @@ class Sigmoid(Module):
         x : array
         """     
         super().backward()
-        return  (np.exp(-self.ctx) / (1 +  np.exp(-self.ctx)) **2) * grad_in
+        sig = 1 / (1 +  np.exp(-self.ctx))
+        return  (sig*(1-sig)) * grad_in
          
     def __str__(self) -> str:
         return f'Sigmoid Layer'
@@ -103,5 +104,6 @@ class Softmax(Module):
         y_hat = np.exp(x)/ np.sum(np.exp(x))
         return y_hat
     def backward(self):
-
+        """
+        """
         return super().backward()

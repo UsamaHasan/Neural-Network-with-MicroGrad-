@@ -14,8 +14,7 @@ class Module(metaclass=ABCMeta):
     def forward(self,x):
         if isinstance(x,Tensor):
             x.ref = self
-        if self.trainable == True:
-            self.ctx = x
+        self.ctx = x
     def backward(self):
         ...
     

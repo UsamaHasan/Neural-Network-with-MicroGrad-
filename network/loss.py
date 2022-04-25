@@ -67,8 +67,8 @@ class CrossEntropyLoss(Module):
             Loss based on cross entropy.
         """
         N = y.shape[0]
-        y_hat = np.exp(x)/ np.sum(np.exp(x))
-        loss = -np.sum(np.dot(y,np.log(y_hat).T)) / N
+        y_hat = np.exp(x)/ np.sum(np.exp(x),axis=1)[:,None]
+        loss = -np.sum(y*np.log(y_hat)) / N
         return loss
 
     def backward(self,input,output):
@@ -90,6 +90,6 @@ class CrossEntropyLoss(Module):
         return :np.array
             gradients of cross entropy loss function
         """
-        input = np.exp(input)/ np.sum(np.exp(input))
+        input = np.exp(input)/ np.sum(np.exp(input),axis=1)[:,None]
         self.grads = output - input
         return self.grads

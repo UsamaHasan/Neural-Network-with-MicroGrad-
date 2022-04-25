@@ -32,13 +32,13 @@ class NeuralNetwork(Module):
         for layer in self.module_list:
             x = layer(x)
         return x
-    def backward(self,input,output) -> np.array:
+    def backward(self,input,gt) -> np.array:
         """
         """
-        grads = self.error_function.backward(input,output)
+        grads = self.error_function.backward(input,gt)
         for layer in reversed(self.module_list):
             grads = layer.backward(grads)
-
+            
     def print_model(self) -> None:
         """
         """
@@ -57,3 +57,4 @@ class NeuralNetwork(Module):
         """
         error = self.error_function.forward(y_hat,y)
         return error
+

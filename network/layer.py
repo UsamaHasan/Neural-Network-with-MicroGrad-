@@ -19,8 +19,9 @@ class LinearLayer(Module):
             Output dimension of MLP.
         """
         super().__init__()
-        self.w = np.random.randn(input,output) - 0.5
-        self.b = np.random.randn(1,output) - 0.5
+        
+        self.w = np.random.random((input,output)) 
+        self.b = np.random.random((1,output))
 
     def forward(self,x:np.array)-> np.array:
         """
@@ -37,7 +38,7 @@ class LinearLayer(Module):
             
         """
         super().forward(x)
-        return np.dot(x,self.w) 
+        return np.dot(x,self.w) + self.b
     
     def backward(self,grad_in:np.array):
         """
@@ -52,13 +53,10 @@ class LinearLayer(Module):
         Returns
         """
         super().backward()
-
+        
         grad_output = np.dot(grad_in, self.w.T)
         self.grad = np.dot(self.ctx.T,grad_in)
         self.grad_in = grad_in
-        
-        #self.w-=learning_rate*self.grad
-        #self.b-=learning_rate*self.grad_in
         return grad_output
 
     def __str__(self) -> str:

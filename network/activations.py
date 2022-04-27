@@ -76,17 +76,20 @@ class Tanh(Module):
 class Relu(Module):
     """
     """
-    def __init__() -> None:
+    def __init__(self) -> None:
         """
         """
-        ...
-    def forward() -> np.array:
+        super().__init__()
+        self.trainable = False
+    def forward(self,x) -> np.array:
         """
         """
-        ... 
-    def backward() ->np.array:
-        ...
-
+        return np.maximum(x, 0) 
+    def backward(self,x) ->np.array:
+        """
+        """
+        return np.array(x > 0).astype('int')
+        
 class Softmax(Module):
     def __init__(self) -> None:
         super().__init__()

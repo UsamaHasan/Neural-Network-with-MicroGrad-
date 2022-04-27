@@ -21,6 +21,7 @@ class SGD:
             b_(i+1) = b_i - learning_rate * dB(i))
         """
         for layer in self.net.module_list:
-            if layer.trainable == True:
+            if layer.trainable == True:        
                 layer.w-=self.learning_rate*layer.grad
-                layer.b-=self.learning_rate*layer.grad_in
+                layer.b-=self.learning_rate*layer.grad_in.sum(axis=0)
+        

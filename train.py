@@ -3,7 +3,7 @@ from tqdm import tqdm
 import numpy as np
 from utils.dataset import Batch_scheduler
 from utils.optimizer import SGD
-
+from utils.utils import accuracy
 def train_sgd(net:NeuralNetwork,x_train:np.array,x_test:np.array,y_train:np.array\
     ,y_test:np.array,sgd:SGD,batch_size:int,epochs:int) -> NeuralNetwork:
     """
@@ -36,14 +36,18 @@ def train_sgd(net:NeuralNetwork,x_train:np.array,x_test:np.array,y_train:np.arra
     test_loader = Batch_scheduler(x_test,y_test,batch_size)
     for iter in tqdm(range(epochs)):
         training_loss = 0.0
+        acc = 0.0
+        i = 0
         for mini_batch in train_loader:
             x , y = mini_batch
             output = net(x)
-            training_loss+=net.criterion(y,output)
+            training_loss += net.criterion(y,output)
             net.backward(output,y)
             sgd.step()
-        print(f'Epoch:{iter}: Loss{training_loss/len(train_loader)}')
-    
+            i+=1    
+            acc +=accuracy(y,output)
+        print(f'Iteration:{iter}: Loss{training_loss/i}')
+        print(f'Accuracy:{acc/i}')    
     eval_loss = 0.0    
     for mini_batch in test_loader:
         x , y = mini_batch

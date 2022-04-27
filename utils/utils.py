@@ -74,6 +74,21 @@ def load_dataset(path) -> Tuple[np.array,np.array,np.array,np.array]:
                     np.array(x_test),np.array(y_test)
     else:
         raise Exception(f'Dataset path Not defined')
+        
+def softmax(x):
+    exps = np.exp(x - np.max(x))
+    y_hat = exps / np.sum(exps)
+    return y_hat
 
-
-
+def accuracy(y,y_hat):
+    """
+    Parameters
+    ----------
+    y: np.array
+        Ground_truth
+    y_pred: np.array
+        Predicted
+    """
+    y_hat = softmax(y_hat)
+    acc = np.sum(y==y_hat)/y.shape[0]
+    return acc

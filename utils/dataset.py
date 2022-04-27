@@ -13,6 +13,8 @@ class Batch_scheduler:
         self.shuffle = shuffle
         self.batch_size = batch_size
         idx = [i for i in range(len(self.x))]
+        if shuffle:
+            random.shuffle(idx)
         self.idx = list(split(idx,batch_size))
         self.len = len(self.idx)
         self.ptr = 0

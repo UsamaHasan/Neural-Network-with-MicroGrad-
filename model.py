@@ -21,9 +21,10 @@ class NeuralNetwork(Module):
         assert number_of_layer == len(neurons_per_layer)
         self.module_list = []
         self.error_function = CrossEntropyLoss()
-        for n in neurons_per_layer:
+        for i,n in enumerate(neurons_per_layer):
             self.module_list.append(LinearLayer(input_dim,n))
-            self.module_list.append(eval(activation)())
+            if i + 1 < len(neurons_per_layer):
+                self.module_list.append(eval(activation)())
             input_dim = n
 
     def forward(self,x) -> np.array:
@@ -32,13 +33,21 @@ class NeuralNetwork(Module):
         for layer in self.module_list:
             x = layer(x)
         return x
-    def backward(self,input,gt) -> np.array:
+    def backward(self,output,gt) -> np.array:
         """
+        BackPropagates through the network
+        Parameters
+        ----------
+        output: np.array
+            Output Of model.
+        gt: np.array
+            Ground Truth Labels.
         """
-        grads = self.error_function.backward(input,gt)
+        grads = self.error_function.backward(output,gt)
+        
         for layer in reversed(self.module_list):
             grads = layer.backward(grads)
-            
+        
     def print_model(self) -> None:
         """
         """

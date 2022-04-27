@@ -26,7 +26,7 @@ class MSELoss(Module):
             mse loss vector.
         """
         N = y_actual.shape[0]
-        l = 1/N *  np.sum(y_actual - y_pred)**2
+        l = 1/N*np.sum(y_actual - y_pred)**2
         return l
 
     def backward(self):
@@ -65,13 +65,14 @@ class CrossEntropyLoss(Module):
         ------
         return: float
             Loss based on cross entropy.
+        return loss
         """
-        N = y.shape[0]
-        y_hat = np.exp(x)/ np.sum(np.exp(x),axis=1)[:,None]
-        loss = -np.sum(y*np.log(y_hat)) / N
+        exps = np.exp(x - np.max(x))
+        logits = exps / exps.sum()        
+        loss = -np.mean(y * np.log(logits + 1e-8))
         return loss
 
-    def backward(self,input,output):
+    def backward(self,y_hat,y):
         """
         Backpropagates
         .. math::
@@ -81,15 +82,17 @@ class CrossEntropyLoss(Module):
             derivative of cross_entropy = y_hat - y
         Parameters
         ----------
-        input: np.array
+        y_hat: np.array
             Input from the previous layer or last layer
-        output: np.array
+        y: np.array
             Actual Label of dataset, ground truhts.
         Returns
         -------
         return :np.array
             gradients of cross entropy loss function
         """
-        input = np.exp(input)/ np.sum(np.exp(input),axis=1)[:,None]
-        self.grads = output - input
-        return self.grads
+        N = y.shape[0]
+        exps = np.exp(y_hat - np.max(y_hat))
+        y_hat = exps / np.sum(exps)
+        self.grad = (y_hat - y)/ N
+        return self.grad

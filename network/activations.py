@@ -8,6 +8,7 @@ import numpy as np
 
 class Sigmoid(Module):
     """
+    
     """
     def __init__(self) -> None:
         """
@@ -83,10 +84,17 @@ class Relu(Module):
         self.trainable = False
     def forward(self,x) -> np.array:
         """
+        Parameters
+        ----------
+        x: np.array
         """
         return np.maximum(x, 0) 
     def backward(self,x) ->np.array:
         """
+        Parameters
+        ----------
+        x: np.array
+        
         """
         return np.array(x > 0).astype('int')
         

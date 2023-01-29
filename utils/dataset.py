@@ -1,6 +1,7 @@
 import random
 from utils import split
 import numpy as np
+from typing import Tuple
 class Batch_scheduler:
     """
     """
@@ -21,7 +22,7 @@ class Batch_scheduler:
         if shuffle:
             random.shuffle(self.idx)
         
-    def __getitem__(self,index) -> tuple[np.array,np.array]:
+    def __getitem__(self,index) -> Tuple[np.array,np.array]:
         x = self.x[index]  
         y = self.y[index]
         return x , y

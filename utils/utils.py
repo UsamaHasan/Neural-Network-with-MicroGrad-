@@ -5,10 +5,20 @@ from typing import Tuple
 from matplotlib import image as img
 from tqdm import tqdm
 import os
-import random
 
 def split(arr, chunk_size):
     """
+    Split array into chunks
+    Parameters
+    ----------
+    arr: np.array
+        Array to be split
+    chunk_size: int
+        Size of each chunk
+    Return
+    ------
+    return: np.array
+        Array of chunks
     """
     for i in range(0, len(arr), chunk_size):
         yield arr[i:i + chunk_size]
@@ -76,6 +86,15 @@ def load_dataset(path) -> Tuple[np.array,np.array,np.array,np.array]:
         raise Exception(f'Dataset path Not defined')
         
 def softmax(x):
+    """
+    Parameters
+    ----------
+    x: np.array
+        Input array
+    Return
+    ------
+    return: np.array
+        Softmax of the input array"""
     exps = np.exp(x - np.max(x))
     y_hat = exps / np.sum(exps)
     return y_hat
@@ -88,6 +107,9 @@ def accuracy(y,y_hat):
         Ground_truth
     y_pred: np.array
         Predicted
+    Return
+    ------
+    return: float
     """
     y_hat = softmax(y_hat)
     acc = np.sum(y==y_hat)/y.shape[0]

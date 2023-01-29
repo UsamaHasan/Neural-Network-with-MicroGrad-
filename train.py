@@ -48,12 +48,6 @@ def train_sgd(net:NeuralNetwork,x_train:np.array,x_test:np.array,y_train:np.arra
             acc +=accuracy(y,output)
         print(f'Iteration:{iter}: Loss{training_loss/i}')
         print(f'Accuracy:{acc/i}')    
-    eval_loss = 0.0    
-    for mini_batch in test_loader:
-        x , y = mini_batch
-        output = net(x)
-        loss = net.criterion(y,output)
-            
-            
-   
+       
+    return net
 
